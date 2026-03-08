@@ -162,7 +162,7 @@ shecare-women-platform
 If deployed using GitHub Pages, the website can be accessed here:
 
 ```
-she-care-women-s-day-project.vercel.app
+https://she-care-women-s-day-project.vercel.app/
 ```
 
 ---
