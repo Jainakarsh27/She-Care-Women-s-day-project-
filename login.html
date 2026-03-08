@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login – SheCare</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .login-container {
+            max-width: 450px;
+            margin: 5rem auto;
+            text-align: center;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 1rem;
+        }
+
+        /* New styles for input-group */
+        .input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 1rem;
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            /* Adjust padding for icon */
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .input-group input::placeholder {
+            color: var(--text-gray);
+        }
+    </style>
+</head>
+
+<body>
+    <section style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem;">
+        <div class="glass glass-card"
+            style="width: 100%; max-width: 450px; text-align: center; animation: slideIn 0.6s ease-out;">
+            <div style="margin-bottom: 3rem;">
+                <h2 class="logo" style="font-size: 3rem; margin-bottom: 1rem;">SHECARE</h2>
+                <h1
+                    style="background: var(--gold-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-size: 2rem; margin-bottom: 1rem;">
+                    Welcome Back</h1>
+                <p style="color: var(--text-gray); font-size: 1.1rem;">Your personal world of care and empowerment
+                    awaits.</p>
+            </div>
+
+            <form class="login-form" onsubmit="event.preventDefault(); loginUser(this.email.value, this.password.value)"
+                style="display: flex; flex-direction: column; gap: 20px;">
+                <div class="input-group">
+                    <i class="fas fa-user-circle"></i>
+                    <input type="email" name="email" placeholder="Enter Your Email" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" name="password" placeholder="Enter Your Password" required>
+                </div>
+                <button type="submit" class="btn btn-primary"
+                    style="width: 100%; justify-content: center; padding: 1.2rem; font-size: 1.1rem; margin-top: 1rem;">
+                    SIGN IN TO DASHBOARD
+                </button>
+            </form>
+
+            <div style="margin-top: 3rem; font-size: 1rem; color: var(--text-gray);">
+                New to SheCare? <a href="profile.html"
+                    style="color: var(--primary); text-decoration: none; font-weight: 700; border-bottom: 2px solid var(--primary);">Join
+                    Now</a>
+            </div>
+
+            <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--glass-border);">
+                <a href="index.html" style="color: var(--text-gray); text-decoration: none; font-size: 0.9rem;"><i
+                        class="fas fa-arrow-left"></i> Back to Homepage</a>
+            </div>
+        </div>
+    </section>
+    <script src="script.js"></script>
+    <script>
+        function handleLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const pass = document.getElementById('loginPass').value;
+            loginUser(email, pass);
+        }
+    </script>
+</body>
+
+</html>

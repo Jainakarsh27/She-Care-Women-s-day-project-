@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile – SheCare</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .profile-form {
+            max-width: 700px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            text-align: left;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .profile-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--primary);
+        }
+
+        .profile-form input,
+        .profile-form select {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        .married-fields {
+            display: none;
+            grid-template-columns: inherit;
+            gap: inherit;
+            grid-column: span 2;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--glass-border);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">SHECARE</a>
+        <ul class="nav-links"></ul>
+        <div class="nav-btns"></div>
+    </nav>
+
+    <section style="padding-top: 8rem;">
+        <div class="glass glass-card text-center" style="max-width: 800px; margin: 0 auto;">
+            <div id="profile-image-container"
+                style="position: relative; width: 150px; height: 150px; margin: 0 auto 2rem;">
+                <img id="profilePreview" src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png"
+                    style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid var(--primary);">
+                <label for="imgUpload"
+                    style="position: absolute; bottom: 5px; right: 5px; background: var(--secondary); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                    <i class="fas fa-camera"></i>
+                </label>
+                <input type="file" id="imgUpload" style="display: none;" onchange="previewImage(event)">
+            </div>
+
+            <h2 id="profileTitle"
+                style="margin-bottom: 2rem; background: var(--gold-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                New User Registration</h2>
+
+            <form class="profile-form" id="profileForm">
+                <div>
+                    <label>First Name</label>
+                    <input type="text" id="profileName" placeholder="Enter first name">
+                </div>
+                <div>
+                    <label>Middle / Last Name</label>
+                    <input type="text" id="lastName" placeholder="Enter last name">
+                </div>
+                <div>
+                    <label>Age</label>
+                    <input type="number" id="profileAge" min="1" max="120">
+                </div>
+                <div>
+                    <label>Mobile Number</label>
+                    <input type="tel" id="profileMobile" placeholder="+91 ...">
+                </div>
+                <div class="full-width">
+                    <label>Email Address</label>
+                    <input type="email" id="profileEmail" placeholder="email@example.com">
+                </div>
+                <div class="full-width">
+                    <label>Address</label>
+                    <input type="text" id="profileAddress" placeholder="Full address">
+                </div>
+                <div>
+                    <label>Pin Code</label>
+                    <input type="text" id="profilePincode">
+                </div>
+                <div>
+                    <label>Education</label>
+                    <input type="text" id="profileEducation" placeholder="E.g. MBA, Graduate">
+                </div>
+                <div class="full-width">
+                    <label>Skills</label>
+                    <input type="text" id="profileSkills" placeholder="Cooking, Teaching, Tailoring, etc.">
+                </div>
+
+                <div class="full-width">
+                    <label>Marital Status</label>
+                    <select id="maritalStatus" onchange="toggleMarriedFields()" class="glass">
+                        <option value="single">Single</option>
+                        <option value="married">Married</option>
+                        <option value="widowed">Widowed / Separated</option>
+                    </select>
+                </div>
+
+                <div id="marriedFields" class="married-fields">
+                    <div>
+                        <label>Husband's Name</label>
+                        <input type="text" id="husbandName">
+                    </div>
+                    <div>
+                        <label>Number of Children</label>
+                        <input type="number" id="childrenCount" min="0">
+                    </div>
+                </div>
+
+                <div class="full-width" style="margin-top: 2rem;">
+                    <button type="button" class="btn btn-primary" id="editBtn"
+                        style="width: 100%; border-radius: 12px; height: 60px;">
+                        Edit Profile <i class="fas fa-edit"></i>
+                    </button>
+                    <p id="savedMsg" style="margin-top: 15px; color: #4cd137; display: none; font-weight: 600;">
+                        <i class="fas fa-check-circle"></i> Profile setup complete!
+                    </p>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <button class="voice-assist" id="voiceBtn"><i class="fas fa-volume-up"></i></button>
+
+    <script src="script.js"></script>
+    <script>
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                const output = document.getElementById('profilePreview');
+                output.src = reader.result;
+                localStorage.setItem('userAvatar', reader.result);
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        function toggleMarriedFields() {
+            const status = document.getElementById('maritalStatus').value;
+            const fields = document.getElementById('marriedFields');
+            fields.style.display = status === 'married' ? 'grid' : 'none';
+        }
+
+        function saveProfile() {
+            const formData = {
+                fname: document.getElementById('fname').value,
+                lname: document.getElementById('lname').value,
+                age: document.getElementById('age').value,
+                mobile: document.getElementById('mobile').value,
+                address: document.getElementById('address').value,
+                pincode: document.getElementById('pincode').value,
+                education: document.getElementById('education').value,
+                skills: document.getElementById('skills').value,
+                maritalStatus: document.getElementById('maritalStatus').value,
+                husbandName: document.getElementById('husbandName').value,
+                childrenCount: document.getElementById('childrenCount').value,
+            };
+            localStorage.setItem('userProfile', JSON.stringify(formData));
+
+            const msg = document.getElementById('savedMsg');
+            msg.style.display = 'block';
+            setTimeout(() => {
+                msg.style.display = 'none';
+                window.location.href = 'index.html';
+            }, 2000);
+        }
+
+        window.onload = () => {
+            const savedAvatar = localStorage.getItem('userAvatar');
+            if (savedAvatar) document.getElementById('profilePreview').src = savedAvatar;
+
+            const saved = localStorage.getItem('userProfile');
+            if (saved) {
+                const data = JSON.parse(saved);
+                for (let key in data) {
+                    const el = document.getElementById(key);
+                    if (el) el.value = data[key];
+                }
+                toggleMarriedFields();
+            }
+        };
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health & Wellness – SheCare</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .tracker-container {
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        .result-box {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: 15px;
+            background: rgba(124, 77, 255, 0.1);
+            border: 1px dashed var(--secondary);
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">SHECARE</a>
+        <ul class="nav-links"></ul>
+        <div class="nav-btns"></div>
+    </nav>
+
+    <section class="hero"
+        style="height: 60vh; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1920') no-repeat center center/cover;">
+        <div class="hero-content">
+            <h1
+                style="background: var(--gold-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                Your Wellness, Our Priority</h1>
+            <p>Self-care is a necessity, not an option. Take control of your health with our smart prediction tools.</p>
+        </div>
+    </section>
+
+    <section id="tracker">
+        <div class="glass glass-card tracker-container text-center">
+            <h2 style="color: var(--primary); margin-bottom: 1rem;"><i class="fas fa-microchip"></i> Prediction Alarm
+                System</h2>
+            <p style="margin-bottom: 2rem; color: var(--text-gray);">Our smart system predicts your wellness windows and
+                alerts you to stay prepared.</p>
+
+            <div class="input-group">
+                <label>Last Period Start Date</label>
+                <input type="date" id="lastPeriodDate" class="glass">
+            </div>
+            <div class="input-group">
+                <label>Average Cycle Length (Days)</label>
+                <input type="number" id="cycleLength" value="28" min="20" max="45" class="glass">
+            </div>
+
+            <button class="btn btn-primary" style="width: 100%; border-radius: 12px;" onclick="calculatePeriod()">
+                Set Prediction Alarm <i class="fas fa-bell"></i>
+            </button>
+
+            <div id="resultBox" class="result-box glass">
+                <h3 style="color: var(--secondary);">Next Cycle Alarm</h3>
+                <p id="predictionText"></p>
+                <p id="ovulationText" style="margin-top: 10px; font-size: 0.9rem; color: var(--accent);"></p>
+            </div>
+        </div>
+    </section>
+
+    <section class="precautions">
+        <div class="glass glass-card">
+            <h2 style="text-align: center; margin-bottom: 3rem; color: var(--primary);">Daily Health Precautions</h2>
+            <div class="stats-grid">
+                <div class="glass" style="padding: 1.5rem;">
+                    <h3 style="color: #ff4757;"><i class="fas fa-shield-virus"></i> Preventive Care</h3>
+                    <p>Screen for cervical cancer every 3 years. Early detection saves lives.</p>
+                </div>
+                <div class="glass" style="padding: 1.5rem;">
+                    <h3 style="color: #4cd137;"><i class="fas fa-tint"></i> Iron & Hydration</h3>
+                    <p>80% of Indian women are anaemic. Include iron-rich foods & 3L water daily.</p>
+                </div>
+                <div class="glass" style="padding: 1.5rem;">
+                    <h3 style="color: #00a8ff;"><i class="fas fa-walking"></i> Bone Density</h3>
+                    <p>Add 20 mins of sunlight and weight-bearing exercises to prevent osteoporosis.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="reminder-system">
+        <div class="glass glass-card" style="text-align: center;">
+            <h2 style="color: var(--accent);">Personal Health Alarms</h2>
+            <p>Set alarms for medicines, checkups, or daily yoga.</p>
+            <div style="display: flex; gap: 15px; justify-content: center; margin-top: 2rem; flex-wrap: wrap;">
+                <input type="text" id="remName" placeholder="Alarm Name (e.g. Yoga)" class="glass"
+                    style="padding: 12px; color: white;">
+                <input type="time" id="remTime" class="glass" style="padding: 12px; color: white;">
+                <button class="btn btn-primary" onclick="setAlarm()">Enable Alarm</button>
+            </div>
+            <div id="alarmList"
+                style="margin-top: 2rem; text-align: left; max-width: 500px; margin-left: auto; margin-right: auto;">
+                <!-- Alarms appear here -->
+            </div>
+        </div>
+    </section>
+
+    <button class="voice-assist" id="voiceBtn"><i class="fas fa-volume-up"></i></button>
+
+    <script src="script.js"></script>
+    <script>
+        function calculatePeriod() {
+            const lastDate = document.getElementById('lastPeriodDate').value;
+            const length = parseInt(document.getElementById('cycleLength').value);
+            if (!lastDate) return alert("Please select a date");
+
+            const date = new Date(lastDate);
+            date.setDate(date.getDate() + length);
+
+            document.getElementById('predictionText').innerHTML = `Alarm set for: <strong>${date.toDateString()}</strong>`;
+            document.getElementById('resultBox').style.display = 'block';
+
+            alert("Prediction Alarm Enabled! You'll receive a notification 2 days before.");
+        }
+
+        function setAlarm() {
+            const name = document.getElementById('remName').value;
+            const time = document.getElementById('remTime').value;
+            if (!name || !time) return;
+
+            const alarms = JSON.parse(localStorage.getItem('healthAlarms') || '[]');
+            alarms.push({ name, time });
+            localStorage.setItem('healthAlarms', JSON.stringify(alarms));
+            displayAlarms();
+            alert(`Alarm set for ${time}!`);
+        }
+
+        function displayAlarms() {
+            const list = document.getElementById('alarmList');
+            const alarms = JSON.parse(localStorage.getItem('healthAlarms') || '[]');
+            list.innerHTML = '';
+            alarms.forEach((a, i) => {
+                list.innerHTML += `<div class="glass" style="padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-radius: 12px;">
+                    <span><i class="fas fa-clock" style="color:var(--primary);"></i> <strong>${a.name}</strong> at ${a.time}</span>
+                    <button onclick="removeAlarm(${i})" style="color: #ff4757; background: none; border: none; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                </div>`;
+            });
+        }
+
+        function removeAlarm(i) {
+            const alarms = JSON.parse(localStorage.getItem('healthAlarms') || '[]');
+            alarms.splice(i, 1);
+            localStorage.setItem('healthAlarms', JSON.stringify(alarms));
+            displayAlarms();
+        }
+
+        window.onload = displayAlarms;
+    </script>
+</body>
+
+</html>

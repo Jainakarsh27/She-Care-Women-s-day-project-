@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safety Support – SheCare</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .panic-btn-large {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: radial-gradient(#ff4757, #c0392b);
+            border: 10px solid rgba(255, 71, 87, 0.3);
+            color: white;
+            font-size: 2rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 0 50px rgba(255, 71, 87, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 3rem auto;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .panic-btn-large:active {
+            transform: scale(0.9);
+        }
+
+        .panic-btn-large::after {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            right: -15px;
+            bottom: -15px;
+            border-radius: 50%;
+            border: 2px solid #ff4757;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(1.2);
+            }
+        }
+
+        .emergency-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .emergency-card {
+            text-align: center;
+            padding: 2rem;
+            border: 2px solid #ff4757;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">SHECARE</a>
+        <ul class="nav-links"></ul>
+        <div class="nav-btns"></div>
+    </nav>
+
+    <section class="hero"
+        style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&q=80&w=1920'); height: 50vh; background-size: cover; background-position: center;">
+        <div class="hero-content">
+            <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Safety Support For Women</h1>
+            <p style="font-size: 1.2rem; max-width: 800px; margin: 0 auto;">Your safety is our priority. In case of any
+                threat, use the panic button or call the helplines below instantly.</p>
+            <h2
+                style="margin-top: 2rem; background: var(--gold-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-size: 2.5rem;">
+                Your Safety, Our Commitment</h2>
+        </div>
+    </section>
+
+    <section id="emergency" style="padding-top: 5rem;">
+        <div class="panic-container glass glass-card" style="padding: 4rem 2rem;">
+            <div id="panicBtn" class="panic-btn-large" onclick="activatePanic()">
+                <i class="fas fa-bullhorn" style="font-size: 3rem; margin-bottom: 10px;"></i>
+                <span>PANIC</span>
+            </div>
+            <p style="margin-top: 2rem; color: #ff4757; font-weight: 800; letter-spacing: 2px; font-size: 1.3rem;">CLICK
+                IN CASE OF DANGER</p>
+
+            <div id="locationStatus" class="glass"
+                style="margin: 2rem auto; max-width: 500px; padding: 1.5rem; display: none; background: rgba(76, 209, 55, 0.1); border: 1px solid #4cd137; border-radius: 20px;">
+                <p style="color: #4cd137; font-weight: bold; font-size: 1.1rem;"><i class="fas fa-check-circle"></i>
+                    Emergency Protocol Initiated</p>
+                <p style="color: var(--text-gray); margin: 10px 0;">Location shared with Police & Saved Contacts.</p>
+                <p id="latLong" style="font-family: monospace; font-size: 0.9rem; color: var(--accent);"></p>
+            </div>
+
+            <!-- Saved Contacts Section -->
+            <div id="emergency-setup"
+                style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--glass-border);">
+                <h3 style="color: var(--secondary); margin-bottom: 1.5rem;">Emergency Contacts</h3>
+                <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                    <div class="glass" style="padding: 1rem 2rem; border-radius: 15px;">
+                        <span style="display: block; font-size: 0.8rem; color: var(--text-gray);">Family/Spouse</span>
+                        <strong id="savedContact">Not Set</strong>
+                    </div>
+                </div>
+                <button class="btn btn-outline" style="margin-top: 1.5rem;" onclick="setupContact()">Update Emergency
+                    Contact</button>
+            </div>
+        </div>
+
+        <div class="emergency-contacts">
+            <h2 style="text-align: center; margin-bottom: 3rem;">Emergency Helplines</h2>
+            <div class="stats-grid">
+                <div class="glass glass-card contact-card">
+                    <h3>Women Helpline</h3>
+                    <span class="number">1091</span>
+                    <p>Immediate police assistance for women in distress.</p>
+                    <a href="tel:1091" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Call Now</a>
+                </div>
+                <div class="glass glass-card contact-card">
+                    <h3>Domestic Abuse</h3>
+                    <span class="number">181</span>
+                    <p>Support for domestic violence victims across India.</p>
+                    <a href="tel:181" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Call Now</a>
+                </div>
+                <div class="glass glass-card contact-card">
+                    <h3>Police (PCR)</h3>
+                    <span class="number">100</span>
+                    <p>Standard emergency police response service.</p>
+                    <a href="tel:100" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Call Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="safety-guide">
+        <div class="glass-card" style="max-width: 800px; margin: 0 auto;">
+            <h2 style="color: var(--primary); margin-bottom: 1.5rem;">Safety While Traveling</h2>
+            <ul style="list-style: none; text-align: left;">
+                <li style="margin-bottom: 1rem;"><i class="fas fa-shield-alt" style="color:var(--secondary);"></i>
+                    Always share your live location with at least two family members.</li>
+                <li style="margin-bottom: 1rem;"><i class="fas fa-shield-alt" style="color:var(--secondary);"></i> Keep
+                    emergency speed dials ready on your phone (usually Power button 3-5 times).</li>
+                <li style="margin-bottom: 1rem;"><i class="fas fa-shield-alt" style="color:var(--secondary);"></i> Trust
+                    your instincts—if a place feels unsafe, leave immediately.</li>
+                <li style="margin-bottom: 1rem;"><i class="fas fa-shield-alt" style="color:var(--secondary);"></i> Stay
+                    in well-lit, crowded areas during night travel.</li>
+            </ul>
+        </div>
+    </section>
+
+    <footer style="margin-top: 4rem;">
+        <p>“Every woman deserves to feel safe and protected.”</p>
+    </footer>
+
+    <button class="voice-assist" id="voiceBtn"><i class="fas fa-volume-up"></i></button>
+
+    <script src="script.js"></script>
+    <script>
+        function activatePanic() {
+            // Enhanced Panic Mode for the demo
+            document.body.style.background = "#2c0000";
+            const audio = new Audio('https://www.soundjay.com/buttons/beep-01a.mp3'); // Fallback beep
+            audio.play();
+
+            alert("🚨 EMERGENCY MODE ACTIVATED 🚨\n\n1. Calling Women Helpline (1091)...\n2. Sending Location to Saved Contacts...\n3. Sharing Profile Details with Local Police Authority.");
+
+            setTimeout(() => {
+                const confirmed = confirm("Emergency contacts have been notified. Do you want to cancel the alarm?");
+                if (confirmed) document.body.style.background = "var(--bg-gradient)";
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>

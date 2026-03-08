@@ -1,0 +1,7 @@
+{
+  "name": "womens-day-project",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "npx -y serve -l 8080"
+  }
+}
